@@ -1,4 +1,5 @@
 import { Admin, GroupOverview } from 'kafkajs';
+import * as _ from 'lodash';
 import { Dispatch, GetState } from '../reducers/types';
 import { getConsumerGroupDescriptions } from './kafkaNode.actions';
 
@@ -15,18 +16,28 @@ export function getConsumerGroupDetail(groupId: string, topic: string) {
   return (dispatch: Dispatch, getState: GetState) => {
     const admin = getState().kafka.client.admin();
 
-    return getConsumerGroupOffset(admin, topic, groupId).then(offset => {
-      getConsumerGroupDescriptions(
-        getState().kafka.url,
-        [groupId],
-        '',
-        groupDescript => {
-          groupDescript = groupDescript[0];
-          groupDescript.offset = offset;
-          dispatch(consumerGroupDetail(groupDescript));
-        }
-      );
-    });
+    return getConsumerGroupOffset(admin, topic, groupId).then(
+      partitionOffsets => {
+        getConsumerGroupDescriptions(
+          getState().kafka.url,
+          [groupId],
+          '',
+          groupDescript => {
+            groupDescript = groupDescript[0];
+            groupDescript.members.forEach(member => {
+              const assginedPartitions = member.memberAssignment.partitions;
+              Object.keys(assginedPartitions)
+                .forEach(topic => {
+                  assginedPartitions[topic] = assginedPartitions[topic].map(
+                  partId => partitionOffsets[partId]
+                );
+              });
+            });
+            dispatch(consumerGroupDetail(groupDescript));
+          }
+        );
+      }
+    );
   };
 }
 
@@ -43,7 +54,7 @@ const getConsumerGroupOffset = (admin: Admin, topic: string, groupId: string) =>
       part.topicOffset = result[1][part.partition];
       return part;
     });
-    return merged;
+    return _.keyBy(merged, 'partition');
   });
 
 const getTopicOffset = (admin: Admin, topic: string) =>

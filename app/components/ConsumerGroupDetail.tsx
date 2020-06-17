@@ -53,18 +53,19 @@ export class ConsumerGroupDetail extends Component<Props> {
                   Member id: {member.memberId} <br/>
                   Host: {member.clientHost}<br/>
                   memberMetadata: {member.memberMetadata.toString()}<br/>
-                  memberAssignment: {member.memberAssignment.toString()}
+                  <ul>
+                    {
+                      Object.values(member.memberAssignment.partitions).map(partsForTopic =>{
+                        console.log("partsForTopic: ", partsForTopic);
+                        return partsForTopic.map(part =>
+                          <li
+                          key={part.partition}>
+                          Partition: {part.partition} {' '} currOffset: {part.offset} endOffset: {part.topicOffset.offset} lag: {parseInt(part.topicOffset.offset) - parseInt(part.offset)}
+                        </li>)
+                      })
+                    }
+                  </ul>
                 </li>)
-          }
-        </ul>
-        <h4>Partitions</h4>
-        <ul>
-          {
-            consumerGroupDetail.offset && consumerGroupDetail.offset.map(part =>
-              <li
-                key={part.partition}>
-                Partition: {part.partition} {' '} currOffset: {part.offset} endOffset: {part.topicOffset.offset} lag: {parseInt(part.topicOffset.offset) - parseInt(part.offset)}
-              </li>)
           }
         </ul>
       </div>
