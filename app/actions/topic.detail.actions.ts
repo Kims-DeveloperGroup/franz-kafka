@@ -39,14 +39,14 @@ const getTopicMeta = (admin: Admin, topic: string) =>
 export const getTopicDetails = (topic: string) =>
   (dispatch: Dispatch, getState: GetState) => {
     const groupNames = getState().consumerGroups.map(group => group.groupId);
-    let admin = getState().kafka.admin();
+    let admin = getState().kafka.client.admin();
     return Promise.all([getTopicMeta(admin, topic), getTopicOffset(admin, topic)])
       .then(result => {
         const partition = Object.values(result[0]).map(part => {
           part.offset = result[1][part.partitionId];
           return part;
         });
-        getConsumerGroupDescriptions(groupNames, topic, (res) => dispatch(topicDetail(topic, partition, res)))
+        getConsumerGroupDescriptions(getState().kafka.url, groupNames, topic, (res) => dispatch(topicDetail(topic, partition, res)))
       })
   };
 

@@ -12,7 +12,7 @@ export function consumerGroups(groups: GroupOverview[]) {
 
 export function getConsumerGroups() {
   return (dispatch: Dispatch, getState: GetState) => {
-    return getState().kafka
+    return getState().kafka.client
       .admin()
       .listGroups()
       .then(res => dispatch(consumerGroups(res.groups)))

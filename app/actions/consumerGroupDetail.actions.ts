@@ -13,7 +13,7 @@ export function consumerGroupDetail(groupDetail: GroupOverview) {
 export function getConsumerGroupDetail(groupId: string, topic: string) {
   console.log("topic:", topic);
   return (dispatch: Dispatch, getState: GetState) => {
-    const admin = getState().kafka.admin();
+    const admin = getState().kafka.client.admin();
 
     return Promise.all([admin.describeGroups([groupId]), getConsumerGroupOffset(admin, topic, groupId)])
       .then(res => {

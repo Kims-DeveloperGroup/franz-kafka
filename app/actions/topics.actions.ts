@@ -12,7 +12,7 @@ export function topics(topics: ITopicMetadata[]) {
 
 export function getTopics() {
   return (dispatch: Dispatch, getState: GetState) => {
-    return getState().kafka
+    return getState().kafka.client
       .admin()
       .fetchTopicMetadata()
       .then(res => dispatch(topics(res.topics)))

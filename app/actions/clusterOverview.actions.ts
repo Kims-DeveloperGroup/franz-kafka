@@ -11,8 +11,8 @@ export function clusterDescription(description: any) {
 
 export function getClusterDescription() {
   return (dispatch: Dispatch, getState: GetState) => {
-    return getState().kafka
-      .admin()
+    return getState()
+      .kafka.client.admin()
       .describeCluster()
       .then(res => dispatch(clusterDescription(res)))
   };

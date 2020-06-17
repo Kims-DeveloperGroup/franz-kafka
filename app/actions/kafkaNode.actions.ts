@@ -1,9 +1,8 @@
 import kafka from 'kafka-node';
 import * as _ from 'lodash';
 
-export const getConsumerGroupDescriptions = (groudIds: string[], topic: string='', onComplete: (res:any) => void) => {
-  console.log("groupIds:", groudIds)
-  const client = new kafka.KafkaClient({kafkaHost: '10.179.6.108:9092,10.179.5.71:9092,10.179.5.203:9092'});
+export const getConsumerGroupDescriptions = (clusterUrl, groudIds: string[], topic: string='', onComplete: (res:any) => void) => {
+  const client = new kafka.KafkaClient({kafkaHost: clusterUrl});
   const kafkaAdmin = new kafka.Admin(client);
 
   kafkaAdmin.describeGroups(groudIds, (err, descriptions) => {
