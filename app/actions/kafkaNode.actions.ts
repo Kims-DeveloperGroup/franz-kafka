@@ -1,5 +1,5 @@
-import kafka from "kafka-node";
-import * as _ from "lodash";
+import kafka from 'kafka-node';
+import * as _ from 'lodash';
 
 export const getConsumerGroupDescriptions = (groudIds: string[], topic: string='', onComplete: (res:any) => void) => {
   console.log("groupIds:", groudIds)
@@ -8,9 +8,14 @@ export const getConsumerGroupDescriptions = (groudIds: string[], topic: string='
 
   kafkaAdmin.describeGroups(groudIds, (err, descriptions) => {
     descriptions = Object.values(descriptions).map(gDescript => {
-      gDescript.topic = _.uniq(gDescript.members.map(member => member.memberMetadata.subscription).flat());
-      return gDescript;
-    }).filter(group => topic != null ? group.topic.includes(topic) : true);
+        gDescript.topic = _.uniq(
+          gDescript.members
+            .map(member => member.memberMetadata.subscription)
+            .flat()
+        );
+        return gDescript;
+      })
+      .filter(group => (topic != null ? group.topic.includes(topic) : true));
     onComplete(descriptions);
   });
 };

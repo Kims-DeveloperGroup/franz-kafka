@@ -1,5 +1,5 @@
-import {Dispatch, GetState} from '../reducers/types';
-import {Kafka} from "kafkajs";
+import { Kafka } from 'kafkajs';
+import { Dispatch, GetState } from '../reducers/types';
 
 export const KAFKA = 'KAFKA';
 
@@ -18,7 +18,7 @@ export function connectKafkaCluster(url: string) {
 
     const kafka = new Kafka({
       clientId: 'jafka',
-      brokers: [url],
+      brokers: url.split(","),
       connectionTimeout: 3000
     });
 

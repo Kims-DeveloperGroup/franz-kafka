@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import {Link} from "react-router-dom";
-import routes from "../constants/routes.json";
-import {bindActionCreators, Dispatch} from "redux";
-import {connect} from "react-redux";
-import {connectKafkaCluster} from "../actions/kafka.actions";
-import {Kafka} from "kafkajs";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { Kafka } from 'kafkajs';
+import { connectKafkaCluster } from '../actions/kafka.actions';
+import routes from '../constants/routes.json';
 
 type Props = {
-  history: object
-  connectKafkaCluster: (url:string) => void;
-  kafka: Kafka
+  history: object;
+  connectKafkaCluster: (url: string) => void;
+  kafka: Kafka;
 };
 
 function mapStateToProps(state: any) {
@@ -28,14 +28,22 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export class ClusterOverview extends Component<Props> {
-
   constructor(props: Readonly<Props>) {
     super(props);
     this.url = '';
   }
 
-  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-    const {connectKafkaCluster, kafka, history} = this.props;
+  render():
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | string
+    | number
+    | {}
+    | React.ReactNodeArray
+    | React.ReactPortal
+    | boolean
+    | null
+    | undefined {
+    const { connectKafkaCluster, kafka, history } = this.props;
     return (
       <div>
         <div>
@@ -43,14 +51,17 @@ export class ClusterOverview extends Component<Props> {
         </div>
 
         <div>
-          url : <input ref={e => this.url = e} name='url' type='text'/>
+          url : <input ref={e => (this.url = e)} name="url" type="text" />
           <button
-            onClick={ () => {
+            onClick={() => {
               console.log(this.url.value);
-              connectKafkaCluster(this.url.value)
-                .then(() => history.push(routes.CLUSTER_OVERVIEW));
-            }}>
-          >connect</button>
+              connectKafkaCluster(this.url.value).then(() =>
+                history.push(routes.CLUSTER_OVERVIEW)
+              );
+            }}
+          >
+            >connect
+          </button>
         </div>
       </div>
     );
