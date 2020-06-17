@@ -52,12 +52,10 @@ export class ConsumerGroupDetail extends Component<Props> {
                   key={member.memberId}>
                   Member id: {member.memberId} <br/>
                   Host: {member.clientHost}<br/>
-                  memberMetadata: {member.memberMetadata.toString()}<br/>
                   <ul>
                     {
-                      Object.values(member.memberAssignment.partitions).map(partsForTopic =>{
-                        console.log("partsForTopic: ", partsForTopic);
-                        return partsForTopic.map(part =>
+                      Object.keys(member.memberAssignment.partitions).map(topic =>{
+                        return member.memberAssignment.partitions[topic].map(part =>
                           <li
                           key={part.partition}>
                           Partition: {part.partition} {' '} currOffset: {part.offset} endOffset: {part.topicOffset.offset} lag: {parseInt(part.topicOffset.offset) - parseInt(part.offset)}
@@ -65,6 +63,7 @@ export class ConsumerGroupDetail extends Component<Props> {
                       })
                     }
                   </ul>
+                  <br/>
                 </li>)
           }
         </ul>
