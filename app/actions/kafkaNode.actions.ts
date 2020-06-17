@@ -13,8 +13,7 @@ export const getConsumerGroupDescriptions = (clusterUrl, groudIds: string[], top
             .flat()
         );
         return gDescript;
-      })
-      .filter(group => (topic != null ? group.topic.includes(topic) : true));
+      }).filter(group => (topic ? group.topic.includes(topic) : true));
     onComplete(descriptions);
   });
 };
