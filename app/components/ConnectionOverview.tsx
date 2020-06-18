@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Kafka } from 'kafkajs';
 import { connectKafkaCluster } from '../actions/kafka.actions';
 import routes from '../constants/routes.json';
+import * as _ from 'lodash';
 
 type Props = {
   history: object;
@@ -33,17 +34,30 @@ export class ClusterOverview extends Component<Props> {
     this.url = '';
   }
 
-  render():
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-    | string
-    | number
-    | {}
-    | React.ReactNodeArray
-    | React.ReactPortal
-    | boolean
-    | null
-    | undefined {
-    const { connectKafkaCluster, kafka, history } = this.props;
+  loadRecentConnection() {
+    let cons = localStorage.getItem('connections');
+    if (!cons) {
+      cons = '';
+    }
+    return cons.split('+');
+  }
+
+  addRecentConnections(url: string) {
+    let recentConnections = this.loadRecentConnection();
+    recentConnections.push(url);
+    recentConnections = _.uniq(recentConnections);
+    localStorage.setItem('connections', recentConnections.join('+'));
+  }
+
+  private connectKafkaCluster(url: string) {
+    const { connectKafkaCluster, history } = this.props;
+    this.addRecentConnections(url);
+    connectKafkaCluster(url)
+      .then(() => history.push(routes.CLUSTER_OVERVIEW))
+      .catch(() => alert('Connection fail'));
+  }
+
+  render(): any {
     return (
       <div>
         <div>
@@ -54,14 +68,16 @@ export class ClusterOverview extends Component<Props> {
           url : <input ref={e => (this.url = e)} name="url" type="text" />
           <button
             onClick={() => {
-              console.log(this.url.value);
-              connectKafkaCluster(this.url.value).then(() =>
-                history.push(routes.CLUSTER_OVERVIEW)
-              );
+              this.connectKafkaCluster(this.url.value);
             }}
           >
-            >connect
+            connect
           </button>
+          <ul>
+            {this.loadRecentConnection().map(url => (
+              <li onClick={() => this.connectKafkaCluster(url)}>{url}</li>
+            ))}
+          </ul>
         </div>
       </div>
     );
