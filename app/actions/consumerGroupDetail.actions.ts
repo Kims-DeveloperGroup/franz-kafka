@@ -27,8 +27,8 @@ export function getConsumerGroupDetail(groupId: string, topic: string) {
             groupDescript.members.forEach(member => {
               const assginedPartitions = member.memberAssignment.partitions;
               Object.keys(assginedPartitions)
-                .forEach(topic => {
-                  assginedPartitions[topic] = assginedPartitions[topic].map(
+                .forEach(subscriptionTopic => {
+                  assginedPartitions[subscriptionTopic] = assginedPartitions[subscriptionTopic].map(
                   partId => partitionOffsets[partId]
                 );
               });
