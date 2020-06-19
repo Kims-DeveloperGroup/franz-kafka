@@ -3,5 +3,6 @@
   "COUNTER": "/counter",
   "CLUSTER_OVERVIEW": "/cluster-overview",
   "TOPIC_DETAIL": "/topic-detail",
-  "CONSUMER_GROUP": "/consumer-group-detail"
+  "CONSUMER_GROUP": "/consumer-group-detail",
+  "CONSUMER": "/consumer"
 }
