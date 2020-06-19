@@ -75,8 +75,13 @@ export class ClusterOverview extends Component<Props> {
             {topics.map(topic => {
               return <li
                 key={topic.name}
-                onClick={() => history.push('/topic-detail?topic=' +  topic.name)}
-              >{topic.name} partitions: {topic.partitions.length} <button onClick={() => history.push('/consumer?topic=' +  topic.name}>Consume</button></li>
+                onClick={() => history.push('/topic-detail?topic=' +  topic.name)}>
+                {topic.name} partitions: {topic.partitions.length}
+                <button onClick={e => {
+                  e.stopPropagation();
+                  history.push('/consumer?topic=' +  topic.name);
+                }}>Consume</button>
+              </li>
             })}
           </ul>
         </div>
