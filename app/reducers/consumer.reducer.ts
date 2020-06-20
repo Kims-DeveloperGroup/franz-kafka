@@ -23,7 +23,9 @@ export default function consumer(state: any = emptyConsumer, action: AnyAction) 
       if (state.consumer) {
         state.consumer.disconnect();
       }
-      return emptyConsumer;
+      newState.consumer = null;
+      newState.topic = '';
+      return newState;
     default:
       return state;
   }
