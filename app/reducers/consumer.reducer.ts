@@ -21,7 +21,7 @@ export default function consumer(state: any = emptyConsumer, action: AnyAction) 
       return newState;
     case STOP_CONSUME:
       if (state.consumer) {
-        state.consumer.pause();
+        state.consumer.disconnect();
       }
       return emptyConsumer;
     default:
