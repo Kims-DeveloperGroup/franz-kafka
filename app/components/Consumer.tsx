@@ -52,7 +52,7 @@ export class Consumer extends Component<Props> {
           <div>{consumer.topic}</div>
           <ul key={consumer.topic} className='messages'>
             {
-              consumer.message.map(msg => <li key={`${msg.value.sessionToken}-${msg.value.time}`}>{JSON.stringify(msg.value)}</li>)
+              consumer.message.map(msg => <li key={`${msg.offset}-${msg.partition}`}>partition: {msg.partition}: {msg.offset}<br/> message: {JSON.stringify(msg.value)}</li>)
             }
           </ul>
         </div>
