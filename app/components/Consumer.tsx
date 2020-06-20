@@ -50,7 +50,7 @@ export class Consumer extends Component<Props> {
             <option value="">Select topic</option>
           </select>
           <div>{consumer.topic}</div>
-          <ul key={consumer.topic}>
+          <ul key={consumer.topic} className='messages'>
             {
               consumer.message.map(msg => <li key={`${msg.value.sessionToken}-${msg.value.time}`}>{JSON.stringify(msg.value)}</li>)
             }
