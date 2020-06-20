@@ -8,6 +8,7 @@ import {getClusterDescription} from "../actions/clusterOverview.actions";
 import {getTopics} from "../actions/topics.actions";
 import {connect} from "react-redux";
 import {getConsumerGroups} from "../actions/consumerGroups.actions";
+import {Button} from "./Common/Button";
 
 type Props = {
   history: object
@@ -60,9 +61,13 @@ export class ClusterOverview extends Component<Props> {
     }
     return (
       <div>
-        <div>Cluster ID: {clusterOverview.description.clusterId}</div>
         <div>
-          Brokers
+          <Button text='Back Home' onClick={() => history.push(routes.CONNECTIONS)} theme='medium'/>
+        </div>
+        <h1>Cluster Overview</h1>
+        <div><h3>&lt;Cluster ID&gt;</h3> {clusterOverview.description.clusterId}</div>
+        <div>
+          <h3>&lt;Brokers&gt;</h3>
           <ul>
             {clusterOverview.description.brokers.map(broker => {
               return <li key={broker.nodeId}>id: {broker.nodeId} host: {broker.host}:{broker.port}</li>
@@ -70,30 +75,29 @@ export class ClusterOverview extends Component<Props> {
           </ul>
         </div>
         <div>
-          TOPICS
+          <h3>&lt;Topics&gt;</h3>
           <ul>
             {topics.map(topic => {
               return <li
+                className='selectable'
                 key={topic.name}
                 onClick={() => history.push('/topic-detail?topic=' +  topic.name)}>
                 {topic.name} partitions: {topic.partitions.length}
-                <button onClick={e => {
-                  e.stopPropagation();
-                  history.push('/consumer?topic=' +  topic.name);
-                }}>Consume</button>
+                <Button theme='small'
+                        text='consume'
+                        onClick={() => history.push('/consumer?topic=' + topic.name)}/>
               </li>
             })}
           </ul>
         </div>
         <div>
-          Consumer Groups
+          <h3>&lt;Consumer Groups&gt;</h3>
           <ul>
             {consumerGroups.map(group => {
               return <li key={group.groupId}>{group.groupId}</li>
             })}
           </ul>
         </div>
-        <Link to={routes.COUNTER}>to Counter</Link>
       </div>
     );
   }
