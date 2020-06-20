@@ -77,7 +77,7 @@ export class Consumer extends Component<Props> {
           </select>
           <Button text={consumer.topic ? "Stop" : "Start"} theme='small'
                   onClick={() => consumer.topic ? stopConsume() : this.startConsume()}/>
-          <ul key={consumer.topic} className='messages ul-60'>
+          <ul key={consumer.topic} className='messages ul-40'>
             {
               consumer.message.map(msg => <li className='message' key={`${msg.offset}-${msg.partition}`}>
                 <div>
