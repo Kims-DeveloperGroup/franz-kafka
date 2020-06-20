@@ -41,7 +41,7 @@ export class ClusterOverview extends Component<Props> {
     if (!cons) {
       cons = '';
     }
-    return cons.split('+').slice(0, cons.split('+').length - 1);
+    return cons.split('+').slice(0, cons.split('+').length);
   }
 
   addRecentConnections(url: string) {
@@ -66,7 +66,6 @@ export class ClusterOverview extends Component<Props> {
         <div>
           <Button text='Back Home' onClick={() => history.push(routes.HOME)} theme='medium'/>
         </div>
-
         <div>
           <h1>Connections</h1>
           URL : <TextInput refer={e => (this.url = e)} placeholder='127.0.0.1:9092,127.0.0.1:9093'/>
