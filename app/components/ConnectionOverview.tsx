@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Kafka } from 'kafkajs';
@@ -7,9 +6,10 @@ import { connectKafkaCluster } from '../actions/kafka.actions';
 import routes from '../constants/routes.json';
 import * as _ from 'lodash';
 import { Button } from "./Common/Button";
+import { History } from 'history';
 
 type Props = {
-  history: object;
+  history: History;
   connectKafkaCluster: (url: string) => void;
   kafka: Kafka;
 };
