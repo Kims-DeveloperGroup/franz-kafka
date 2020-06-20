@@ -31,12 +31,11 @@ li {
 }
 
 a {
-  opacity: 0.75;
+  color: rgb(47, 253, 20);
   text-decoration: none;
 }
 
 a:hover {
-  opacity: 1;
-  text-decoration: none;
+  color: fuchsia;
   cursor: pointer;
 }
