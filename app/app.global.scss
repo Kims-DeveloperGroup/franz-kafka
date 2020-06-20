@@ -1,13 +1,10 @@
-/*
- * @NOTE: Prepend a `~` to css file paths that are in your node_modules
- *        See https://github.com/webpack-contrib/sass-loader#imports
- */
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
 body {
   padding: 10px;
   position: relative;
   color: rgb(47, 253, 20);
+  opacity: 0.75;
   height: 100vh;
   background-color: rgb(21, 21, 23);
   font-family: Arial, Helvetica, Helvetica Neue, serif;
@@ -21,13 +18,27 @@ h1 {
   letter-spacing: -0.025em;
 }
 
-p {
-  font-size: 24px;
+h2 {
+  margin: 10px 0 40px 0;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -0.025em;
+}
+h3 {
+  font-size: 18px;
+  display: inline;
+  font-weight: bold;
 }
 
 li {
   list-style: none;
   padding: 3px 0 3px 0;
+}
+.selectable {
+  &:hover {
+    cursor: pointer;
+    color: gold;
+  }
 }
 
 a {
