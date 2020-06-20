@@ -54,6 +54,12 @@ export class Consumer extends Component<Props> {
         <button onClick={() => history.goBack()}>Back</button>
         <h1>{consumer.topic ? `Consuming ${consumer.topic}` : 'Consumer'}</h1>
         <div>
+          <ul>
+            {topicDetail.topicMetadata && topicDetail.topicMetadata.map(partitionMetadata => <li key={partitionMetadata.partitionId}>
+              {partitionMetadata.partitionId}: offset {partitionMetadata.offset.offset}</li>)}
+          </ul>
+        </div>
+        <div>
           <select name="topic" defaultValue={location.search.split("=")[1]}
                   ref={e => this.selectedTopic = e}
                   onChange={() => stopConsume()}>
@@ -65,7 +71,9 @@ export class Consumer extends Component<Props> {
           <button onClick={() => consumer.topic ? stopConsume() : this.startConsume()}>{consumer.topic ? "Stop" : "Start"}</button>
           <ul key={consumer.topic} className='messages'>
             {
-              consumer.message.map(msg => <li key={`${msg.offset}-${msg.partition}`}>partition: {msg.partition}: {msg.offset}<br/> message: {JSON.stringify(msg.value)}</li>)
+              consumer.message.map(msg => <li className='message' key={`${msg.offset}-${msg.partition}`}>partition: {msg.partition}: {msg.offset}<br/>
+              timestamp: {msg.timeStamp} <br/>
+              message: {JSON.stringify(msg.value)}</li>)
             }
           </ul>
         </div>
