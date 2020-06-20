@@ -13,7 +13,7 @@ export default function Routes() {
   return (
     <App>
       <Switch>
-        <Route path={routes.COUNTER} component={ConnectionOverview} />
+        <Route path={routes.CONNECTIONS} component={ConnectionOverview} />
         <Route path={routes.CLUSTER_OVERVIEW} component={ClusterOverview} />
         <Route path={routes.TOPIC_DETAIL} component={TopicDetail} />
         <Route path={routes.CONSUMER_GROUP} component={ConsumerGroupDetail} />

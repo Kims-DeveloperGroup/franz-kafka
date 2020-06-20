@@ -1,6 +1,6 @@
 {
   "HOME": "/",
-  "COUNTER": "/counter",
+  "CONNECTIONS": "/connections",
   "CLUSTER_OVERVIEW": "/cluster-overview",
   "TOPIC_DETAIL": "/topic-detail",
   "CONSUMER_GROUP": "/consumer-group-detail",
