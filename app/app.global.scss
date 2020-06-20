@@ -11,6 +11,10 @@ body {
   overflow-y: scroll;
 }
 
+.colored {
+  color: fuchsia;
+}
+
 h1 {
   margin: 10px 0 40px 0;
   font-size: 24px;
@@ -19,7 +23,6 @@ h1 {
 }
 
 h2 {
-  margin: 10px 0 40px 0;
   font-size: 20px;
   font-weight: bold;
   letter-spacing: -0.025em;
@@ -29,6 +32,23 @@ h3 {
   display: inline;
   font-weight: bold;
 }
+h4 {
+  font-size: 14px;
+  display: inline;
+  font-weight: bold;
+}
+
+.ul-60 {
+  max-width: 60vh;
+}
+
+.ul-40 {
+  max-height: 40vh;
+}
+
+ul {
+  overflow-y: scroll;
+}
 
 li {
   list-style: none;
@@ -36,7 +56,13 @@ li {
 }
 .selectable {
   &:hover {
-    cursor: pointer;
+    cursor: zoom-in;
+    color: gold;
+  }
+}
+.highlight {
+  &:hover {
+    opacity: 1;
     color: gold;
   }
 }
