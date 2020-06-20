@@ -7,6 +7,7 @@ import routes from '../constants/routes.json';
 import * as _ from 'lodash';
 import { Button } from "./Common/Button";
 import { History } from 'history';
+import {TextInput} from "./Common/TextInput";
 
 type Props = {
   history: History;
@@ -67,8 +68,9 @@ export class ClusterOverview extends Component<Props> {
         </div>
 
         <div>
-          URL : <input ref={e => (this.url = e)} name="url" type="text" />
+          URL : <TextInput refer={e => (this.url = e)} placeholder='127.0.0.1:9092,127.0.0.1:9093'/>
           <Button text='connect'
+                  theme='small'
                   onClick={() => this.connectKafkaCluster(this.url.value)}/>
           <ul>
             {this.loadRecentConnection().map(url => (
