@@ -6,6 +6,7 @@ import { Kafka } from 'kafkajs';
 import { connectKafkaCluster } from '../actions/kafka.actions';
 import routes from '../constants/routes.json';
 import * as _ from 'lodash';
+import { Button } from "./Common/Button";
 
 type Props = {
   history: object;
@@ -39,7 +40,7 @@ export class ClusterOverview extends Component<Props> {
     if (!cons) {
       cons = '';
     }
-    return cons.split('+');
+    return cons.split('+').slice(0, cons.split('+').length - 1);
   }
 
   addRecentConnections(url: string) {
@@ -58,24 +59,23 @@ export class ClusterOverview extends Component<Props> {
   }
 
   render(): any {
+    const {history} = this.props;
     return (
       <div>
         <div>
-          <Link to={routes.CLUSTER_OVERVIEW}>Back to the cluster</Link>
+          <Button text='Back Home' onClick={() => history.push(routes.HOME)} theme='medium'/>
         </div>
 
         <div>
-          url : <input ref={e => (this.url = e)} name="url" type="text" />
-          <button
-            onClick={() => {
-              this.connectKafkaCluster(this.url.value);
-            }}
-          >
-            connect
-          </button>
+          URL : <input ref={e => (this.url = e)} name="url" type="text" />
+          <Button text='connect'
+                  onClick={() => this.connectKafkaCluster(this.url.value)}/>
           <ul>
             {this.loadRecentConnection().map(url => (
-              <li onClick={() => this.connectKafkaCluster(url)}>{url}</li>
+              <li>
+                <span>{url}</span>
+                <Button text='reconnect' onClick={() => this.connectKafkaCluster(url)} theme='small'/>
+              </li>
             ))}
           </ul>
         </div>
