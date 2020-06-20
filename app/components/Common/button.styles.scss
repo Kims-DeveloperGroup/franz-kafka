@@ -1,7 +1,11 @@
 .smallBtn {
   padding: 0 5px 0 5px;
+  opacity: 0.75;
   color: fuchsia;
   cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .mediumBtn {
@@ -9,4 +13,8 @@
   font-size: 18px;
   color: fuchsia;
   cursor: pointer;
+  opacity: 0.75;
+  &:hover {
+    opacity: 1;
+  }
 }
