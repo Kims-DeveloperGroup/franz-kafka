@@ -41,6 +41,8 @@ export function consumeTopic(topicToConsume, groupId) {
             dispatch(messageConsume({
               key: message.key.toString(),
               value: message.value.toString(),
+              offset: message.offset,
+              timeStamp: message.timestamp,
               topic: topic,
               partition: partition
             }))
