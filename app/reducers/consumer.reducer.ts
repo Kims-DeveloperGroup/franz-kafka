@@ -1,7 +1,7 @@
 import {AnyAction} from 'redux';
 import {CONSUME_MESSAGE, START_CONSUME, STOP_CONSUME} from "../actions/consumer.actions";
 
-const MAX_MESSAGE_COUNT = 10;
+const MAX_MESSAGE_COUNT = 100;
 
 let emptyConsumer = {consumer: null, topic: '', message: []};
 export default function consumer(state: any = emptyConsumer, action: AnyAction) {
