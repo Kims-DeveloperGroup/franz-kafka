@@ -68,6 +68,7 @@ export class ClusterOverview extends Component<Props> {
         </div>
 
         <div>
+          <h1>Connections</h1>
           URL : <TextInput refer={e => (this.url = e)} placeholder='127.0.0.1:9092,127.0.0.1:9093'/>
           <Button text='connect'
                   theme='small'
