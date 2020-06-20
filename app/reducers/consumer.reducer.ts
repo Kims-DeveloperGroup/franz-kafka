@@ -15,7 +15,7 @@ export default function consumer(state: any = emptyConsumer, action: AnyAction) 
     case CONSUME_MESSAGE:
       action.message.value = JSON.parse(action.message.value);
       if (newState.message.length > MAX_MESSAGE_COUNT) {
-        newState.message = newState.message.slice(newState.message.length - MAX_MESSAGE_COUNT);
+        newState.message = newState.message.slice(newState.message.length - MAX_MESSAGE_COUNT, newState.message.length);
       }
       newState.message.push(action.message);
       return newState;
