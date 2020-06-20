@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
-import { Kafka } from 'kafkajs';
-import { connectKafkaCluster } from '../actions/kafka.actions';
+import React, {Component} from 'react';
+import {bindActionCreators, Dispatch} from 'redux';
+import {connect} from 'react-redux';
+import {Kafka} from 'kafkajs';
+import {connectKafkaCluster} from '../actions/kafka.actions';
 import routes from '../constants/routes.json';
 import * as _ from 'lodash';
-import { Button } from "./Common/Button";
-import { History } from 'history';
+import {Button} from "./Common/Button";
+import {History} from 'history';
 import {TextInput} from "./Common/TextInput";
 
 type Props = {
@@ -72,7 +72,7 @@ export class ClusterOverview extends Component<Props> {
           <Button text='connect'
                   theme='small'
                   onClick={() => this.connectKafkaCluster(this.url.value)}/>
-          <ul>
+          <ul className='ul-40'>
             {this.loadRecentConnection().map(url => (
               <li>
                 <span>{url}</span>

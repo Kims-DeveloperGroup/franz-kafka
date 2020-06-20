@@ -9,9 +9,11 @@ import {getTopics} from "../actions/topics.actions";
 import {connect} from "react-redux";
 import {getConsumerGroups} from "../actions/consumerGroups.actions";
 import {Button} from "./Common/Button";
+import {History} from 'history';
+
 
 type Props = {
-  history: object
+  history: History
   clusterOverview: clusterOverviewType
   topics: ITopicMetadata[],
   consumerGroups: GroupOverview[],
@@ -62,13 +64,13 @@ export class ClusterOverview extends Component<Props> {
     return (
       <div>
         <div>
-          <Button text='Back Home' onClick={() => history.push(routes.CONNECTIONS)} theme='medium'/>
+          <Button text='Back to Connections' onClick={() => history.push(routes.CONNECTIONS)} theme='medium'/>
         </div>
         <h1>Cluster Overview</h1>
         <div><h3>&lt;Cluster ID&gt;</h3> {clusterOverview.description.clusterId}</div>
         <div>
           <h3>&lt;Brokers&gt;</h3>
-          <ul>
+          <ul  className='ul-40'>
             {clusterOverview.description.brokers.map(broker => {
               return <li key={broker.nodeId}>id: {broker.nodeId} host: {broker.host}:{broker.port}</li>
             })}
@@ -76,7 +78,7 @@ export class ClusterOverview extends Component<Props> {
         </div>
         <div>
           <h3>&lt;Topics&gt;</h3>
-          <ul>
+          <ul  className='ul-40'>
             {topics.map(topic => {
               return <li
                 className='selectable'
@@ -92,9 +94,9 @@ export class ClusterOverview extends Component<Props> {
         </div>
         <div>
           <h3>&lt;Consumer Groups&gt;</h3>
-          <ul>
+          <ul className='ul-40'>
             {consumerGroups.map(group => {
-              return <li key={group.groupId}>{group.groupId}</li>
+              return <li className='highlight' key={group.groupId}>{group.groupId}</li>
             })}
           </ul>
         </div>
