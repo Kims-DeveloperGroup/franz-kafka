@@ -25,6 +25,9 @@ export default function consumer(state: any = emptyConsumer, action: AnyAction) 
       }
       newState.consumer = null;
       newState.topic = '';
+      if (action.flushMsg) {
+        newState.message = [];
+      }
       return newState;
     default:
       return state;

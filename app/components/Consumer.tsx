@@ -13,7 +13,7 @@ type Props = {
   location: any,
   kafkaClient: Kafka,
   consumeTopic: (topic: string, groupId: string) => void,
-  stopConsume: () => void,
+  stopConsume: (flushMsg:boolean) => void,
   getTopicDetails: (topic: string) => void,
   consumer: any,
   history: History,
@@ -76,7 +76,7 @@ export class Consumer extends Component<Props> {
             }
           </select>
           <Button text={consumer.topic ? "Stop" : "Start"} theme='small'
-                  onClick={() => consumer.topic ? stopConsume() : this.startConsume()}/>
+                  onClick={() => consumer.topic ? stopConsume(false) : this.startConsume()}/>
         </div>
         <br/>
         <div>

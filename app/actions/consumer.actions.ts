@@ -19,14 +19,15 @@ export function consumerStart(consumer: any, topic: string) {
   }
 }
 
-export function consumerStop() {
+export function consumerStop(flushMsg:boolean) {
   return {
-    type: STOP_CONSUME
+    type: STOP_CONSUME,
+    flushMsg
   }
 }
 
-export function stopConsume() {
-  return (dispatch: Dispatch) => dispatch(consumerStop())
+export function stopConsume(flushMsg:boolean = true) {
+  return (dispatch: Dispatch) => dispatch(consumerStop(flushMsg))
 }
 
 export function consumeTopic(topicToConsume, groupId) {
