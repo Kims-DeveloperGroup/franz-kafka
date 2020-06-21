@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 import routes from "../constants/routes.json";
 import {clusterOverviewType} from "../reducers/types";
 import {GroupOverview, ITopicMetadata} from "kafkajs";
@@ -50,14 +49,13 @@ export class ClusterOverview extends Component<Props> {
     getConsumerGroups();
   }
 
-  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+  render(): React.ReactElement {
     const {clusterOverview, topics, consumerGroups, history} = this.props;
 
     if (!clusterOverview.description) {
       return (
         <div>
-          LOADING
-          <Link to={routes.COUNTER}>to Counter</Link>
+          <Button text='Back to Connections' onClick={() => history.push(routes.CONNECTIONS)} theme='medium'/>
         </div>
       );
     }

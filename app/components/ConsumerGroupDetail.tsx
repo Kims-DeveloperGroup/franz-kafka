@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-import { getConsumerGroupDetail } from "../actions/consumerGroupDetail.actions";
-import { Button } from "./Common/Button";
-import { History } from 'history';
+import {connect} from "react-redux";
+import {bindActionCreators, Dispatch} from "redux";
+import {getConsumerGroupDetail} from "../actions/consumerGroupDetail.actions";
+import {Button} from "./Common/Button";
+import {History} from 'history';
 
 type Props = {
   history: History,
@@ -35,7 +35,7 @@ export class ConsumerGroupDetail extends Component<Props> {
     getConsumerGroupDetail(location.search.split("=")[1], topicDetail.topic)
   }
 
-  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+  render(): React.ReactElement {
     const {location, consumerGroupDetail, history} = this.props;
     const groupId = location.search.split("=")[1];
     return (

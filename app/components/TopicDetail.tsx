@@ -4,8 +4,10 @@ import {getTopicDetails} from "../actions/topic.detail.actions";
 import {bindActionCreators, Dispatch} from "redux";
 import routes from "../constants/routes.json";
 import {Button} from "./Common/Button";
+import {History} from 'history';
 
 type Props = {
+  history: History
   topicDetail: any,
   getTopicDetails: (topic: string) => void,
   location: any
@@ -32,7 +34,7 @@ export class TopicDetail extends Component<Props> {
     getTopicDetails(location.search.split("=")[1]);
   }
 
-  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+  render(): React.ReactElement {
     const {topicDetail, location, history} = this.props;
     const topic = location.search.split("=")[1];
     return (

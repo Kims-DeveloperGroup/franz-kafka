@@ -63,7 +63,7 @@ export class ClusterOverview extends Component<Props> {
       .catch(() => alert('Connection fail'));
   }
 
-  render(): any {
+  render(): React.ReactElement {
     const {history} = this.props;
     return (
       <div>

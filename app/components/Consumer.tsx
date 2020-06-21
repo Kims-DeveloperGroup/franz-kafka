@@ -14,7 +14,7 @@ type Props = {
   kafkaClient: Kafka,
   consumeTopic: (topic: string, groupId: string) => void,
   stopConsume: () => void,
-  getTopicDetails: (topic) => void,
+  getTopicDetails: (topic: string) => void,
   consumer: any,
   history: History,
   topicDetail: any
@@ -51,7 +51,7 @@ export class Consumer extends Component<Props> {
     getTopicDetails(topic);
   }
 
-  render(): JSX.Element {
+  render(): React.ReactElement {
     const {location, stopConsume, history, consumer, topicDetail, topics} = this.props;
     return (
       <div className='consumer'>
