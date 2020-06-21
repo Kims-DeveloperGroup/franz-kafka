@@ -52,6 +52,10 @@ export class ClusterOverview extends Component<Props> {
   }
 
   private connectKafkaCluster(url: string) {
+    if (!url) {
+      alert('Please enter url');
+      return;
+    }
     const { connectKafkaCluster, history } = this.props;
     this.addRecentConnections(url);
     connectKafkaCluster(url)
@@ -74,7 +78,7 @@ export class ClusterOverview extends Component<Props> {
                   onClick={() => this.connectKafkaCluster(this.url.value)}/>
           <ul className='ul-40'>
             {this.loadRecentConnection().map(url => (
-              <li>
+              <li key={url}>
                 <span>{url}</span>
                 <Button text='reconnect' onClick={() => this.connectKafkaCluster(url)} theme='small'/>
               </li>
