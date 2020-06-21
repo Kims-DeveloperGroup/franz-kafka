@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators, Dispatch} from "redux";
-import {Link} from "react-router-dom";
-import routes from "../constants/routes.json";
 import {getConsumerGroupDetail} from "../actions/consumerGroupDetail.actions";
+import {Button} from "./Common/Button";
+import {History} from 'history';
 
 type Props = {
+  history: History,
   topicDetail: any,
   consumerGroupDetail: any
   getConsumerGroupDetail: (groupId: string, topic: string) => void,
@@ -34,32 +35,35 @@ export class ConsumerGroupDetail extends Component<Props> {
     getConsumerGroupDetail(location.search.split("=")[1], topicDetail.topic)
   }
 
-  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-    const {location, consumerGroupDetail} = this.props;
+  render(): React.ReactElement {
+    const {location, consumerGroupDetail, history} = this.props;
     const groupId = location.search.split("=")[1];
     return (
       <div>
-        <Link to={routes.HOME}>to HOME</Link>
-        <div>Consumer Detail</div>
-        <h1>{groupId}</h1>
-        <h4>State: {consumerGroupDetail.state}</h4>
-        <h4>Members</h4>
-        <ul>
+        <div>
+          <Button text='Back' onClick={() => history.goBack()} theme='medium'/>
+        </div>
+        <h1>Group: {groupId}</h1>
+        <div><h2>Members</h2></div>
+        <div>Count: {consumerGroupDetail.members && consumerGroupDetail.members.length}</div>
+        <ul className='ul-60'>
           {
             consumerGroupDetail.members && consumerGroupDetail.members
               .map(member =>
                 <li
                   key={member.memberId}>
-                  Member id: {member.memberId} <br/>
-                  Host: {member.clientHost}<br/>
-                  <ul>
+                  <div className='highlight'><h3 className='colored'>{member.memberId}</h3> </div>
+                  <div className='highlight'>&lt;Host&gt;: {member.clientHost}</div>
+                  <div>&lt;Offset&gt;</div>
+                  <ul className='ul-40'>
                     {
                       Object.keys(member.memberAssignment.partitions).map(topic =>{
                         return member.memberAssignment.partitions[topic].map(part =>
                           <li
-                          key={part.partition}>
-                          Partition: {part.partition} {' '} currOffset: {part.offset} endOffset: {part.topicOffset.offset} lag: {parseInt(part.topicOffset.offset) - parseInt(part.offset)}
-                        </li>)
+                            className='highlight'
+                            key={part.partition}>
+                            Partition: {part.partition} currOffset: {part.offset} endOffset: {part.topicOffset.offset} lag: {parseInt(part.topicOffset.offset) - parseInt(part.offset)}
+                          </li>)
                       })
                     }
                   </ul>

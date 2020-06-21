@@ -1,0 +1,89 @@
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+body {
+  padding: 10px;
+  position: relative;
+  color: rgb(47, 253, 20);
+  opacity: 0.75;
+  height: 100vh;
+  background-color: rgb(21, 21, 23);
+  font-family: Arial, Helvetica, Helvetica Neue, serif;
+  overflow-y: scroll;
+}
+
+.colored {
+  color: fuchsia;
+}
+
+h1 {
+  margin: 10px 0 40px 0;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -0.025em;
+}
+h3 {
+  font-size: 18px;
+  display: inline;
+  font-weight: bold;
+}
+h4 {
+  font-size: 14px;
+  display: inline;
+  font-weight: bold;
+}
+
+.ul-60 {
+  max-width: 60vh;
+}
+
+.ul-40 {
+  max-height: 40vh;
+}
+
+.ul-20 {
+  max-height: 20vh;
+}
+
+ul {
+  overflow-y: scroll;
+}
+
+li {
+  list-style: none;
+  padding: 3px 0 3px 0;
+}
+.selectable {
+  &:hover {
+    cursor: zoom-in;
+    color: gold;
+  }
+}
+.highlight {
+  &:hover {
+    opacity: 1;
+    color: gold;
+  }
+}
+
+a {
+  color: rgb(47, 253, 20);
+  text-decoration: none;
+}
+
+a:hover {
+  color: fuchsia;
+  cursor: pointer;
+}
+
+select {
+  background-color: transparent;
+  color: rgb(47, 253, 20);
+  font-size: 14px;
+  text-align: center;
+}

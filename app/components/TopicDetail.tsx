@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {getTopicDetails} from "../actions/topic.detail.actions";
 import {bindActionCreators, Dispatch} from "redux";
-import {Link} from "react-router-dom";
 import routes from "../constants/routes.json";
+import {Button} from "./Common/Button";
+import {History} from 'history';
 
 type Props = {
+  history: History
   topicDetail: any,
   getTopicDetails: (topic: string) => void,
   location: any
@@ -32,29 +34,34 @@ export class TopicDetail extends Component<Props> {
     getTopicDetails(location.search.split("=")[1]);
   }
 
-  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+  render(): React.ReactElement {
     const {topicDetail, location, history} = this.props;
     const topic = location.search.split("=")[1];
     return (
       <div>
-        <Link to={routes.HOME}>to HOME</Link>
-        <div>Topic Detail <span>{topic}</span></div>
-        <h1>ConsumerGroup</h1>
+        <div>
+          <Button text='Back to Cluster Overview' onClick={() => history.push(routes.CLUSTER_OVERVIEW)} theme='medium'/>
+        </div>
+        <h1>Topic Detail <h2>{topic}</h2></h1>
+        <h2>&lt;ConsumerGroup&gt;</h2>
         {topicDetail.topicConsumerGroups && topicDetail.topicConsumerGroups.map(group =>
-        <div
-          key={group.groupId}
-          onClick={()=> history.push('/consumer-group-detail?groupId=' + group.groupId)}>
+        <div key={group.groupId}>
           <div>------------------------</div>
-          <h3>{group.groupId}</h3>
-          <div>state: {group.state}</div>
-          <div>members: {group.members.length}</div>
+          <h3 className='selectable'
+              onClick={()=> history.push('/consumer-group-detail?groupId=' + group.groupId)}>
+            {group.groupId}
+          </h3>
+          <div><h4>&lt;State&gt;:</h4> {group.state}</div>
+          <div><h4>&lt;Members&gt;:</h4> {group.members.length}</div>
         </div>
         )}
-        <h3>Partions</h3>
-        <ul>
+        <br/><br/>
+        <h3>&lt;Partions&gt;</h3>
+        <div><h4>{topicDetail.topicMetadata && `count:${Object.values(topicDetail.topicMetadata).length}`}</h4></div>
+        <ul  className='ul-40'>
           {topicDetail.topicMetadata && Object.values(topicDetail.topicMetadata)
             .map(partition =>
-              <li key={partition.partitionId}>
+              <li className='highlight' key={partition.partitionId}>
                 {partition.partitionId}:
                 offset:{partition.offset.low}-{partition.offset.high}{' '}
                 leader: {partition.leader}{' '}

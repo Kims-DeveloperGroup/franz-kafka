@@ -2,5 +2,8 @@
   .messages {
     overflow: scroll;
     height: 500px;
+    li {
+      margin: 5px;
+    }
   }
 }
