@@ -1,7 +1,8 @@
 <div align="center">
-Kafka gui client
-This project began with the electron boilerplate project.
+<h1>Kafka gui client</h1>
+<i>This project began with the electron boilerplate project.</i>
 </div>
+<img src="internals/img/Home.png" alt="Home"/><br/>
 
 ## Install
 
