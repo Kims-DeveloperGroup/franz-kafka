@@ -77,18 +77,22 @@ export class Consumer extends Component<Props> {
           </select>
           <Button text={consumer.topic ? "Stop" : "Start"} theme='small'
                   onClick={() => consumer.topic ? stopConsume() : this.startConsume()}/>
-          <ul key={consumer.topic} className='messages ul-40'>
-            {
-              consumer.message.map(msg => <li className='message' key={`${msg.offset}-${msg.partition}`}>
-                <div>
-                  <h3 className='colored'>partition-{msg.partition}: {msg.offset}</h3><br/>
-                  <div className='highlight'>&lt;timestamp&gt;: <span>{msg.timeStamp}</span></div>
-                  <div className='highlight'>&lt;message&gt;:<br/> {JSON.stringify(msg.value)}</div>
-                </div>
-              </li>)
-            }
-          </ul>
         </div>
+        <br/>
+        <div>
+          <h3 className='colored-2'>{consumer.message.length ? `partition-${consumer.message[consumer.message.length - 1].partition} : ${consumer.message[consumer.message.length - 1].offset} : ${consumer.message[consumer.message.length - 1].timeStamp} : ${consumer.message[consumer.message.length - 1].key}`: 'NONE'}</h3>
+        </div>
+        <ul key={consumer.topic} className='messages ul-40'>
+          {
+            consumer.message.map(msg => <li className='message' key={`${msg.offset}-${msg.partition}`}>
+              <div>
+                <h3 className='colored'>partition-{msg.partition}: {msg.offset}</h3><br/>
+                <div className='highlight'>&lt;timestamp&gt;: <span>{msg.timeStamp}</span></div>
+                <div className='highlight'>&lt;message&gt;:<br/> {JSON.stringify(msg.value)}</div>
+              </div>
+            </li>)
+          }
+        </ul>
       </div>
     );
   }
