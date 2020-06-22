@@ -55,7 +55,7 @@ export class Consumer extends Component<Props> {
   startConsume(fromBeginning: boolean): void {
     const {consumeTopic, getTopicDetails} = this.props;
     let topic = this.selectedTopic.value;
-    consumeTopic(topic, "group-jafka", fromBeginning, this.matchText.value);
+    consumeTopic(topic, `kafka-franz-${new Date().getTime()}`, fromBeginning, this.matchText.value);
     getTopicDetails(topic);
   }
 
