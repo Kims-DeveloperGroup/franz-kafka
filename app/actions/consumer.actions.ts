@@ -11,11 +11,12 @@ export function messageConsume(message: any) {
   }
 }
 
-export function consumerStart(consumer: any, topic: string) {
+export function consumerStart(consumer: any, topic: string, matchRegex: string) {
   return {
     type: START_CONSUME,
     consumer,
-    topic
+    topic,
+    matchRegex
   }
 }
 
@@ -36,7 +37,7 @@ export function consumeTopic(topicToConsume, groupId, fromBeginning = false, reg
     const regex = new RegExp(regexLiteral);
     consumer.connect()
       .then(async () => {
-        dispatch(consumerStart(consumer, topicToConsume));
+        dispatch(consumerStart(consumer, topicToConsume, regexLiteral));
         await consumer.subscribe({ topic: topicToConsume, fromBeginning: fromBeginning });
         await consumer.run({
           eachMessage: async ({ topic, partition, message }) => {

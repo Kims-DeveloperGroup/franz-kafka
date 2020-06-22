@@ -108,21 +108,22 @@ export class Consumer extends Component<Props> {
           <li className='colored' ref={el => this.messagesEnd = el}>-----------EOL-----------</li>
         </ul>
         {
-          consumer.matched.length > 0 &&
+          consumer.matchRegex &&
           <div>
-            <h3>Matched : {this.matchText ? this.matchText.value : ''}</h3>
-            <ul key={`search-${consumer.topic}`} className='messages ul-40'>
-              {
-                consumer.matched.map(msg => <li className='message' key={`${msg.offset}-${msg.partition}`}>
-                  <div>
-                    <h3 className='colored'>partition-{msg.partition}: {msg.offset}</h3><br/>
-                    <div className='highlight'>&lt;timestamp&gt;: <span>{msg.timeStamp}</span></div>
-                    <div className='highlight'>&lt;message&gt;:<br/> {JSON.stringify(msg.value)}</div>
-                  </div>
-                </li>)
-              }
-              <li className='colored'>-----------EOL-----------</li>
-            </ul>
+            <h3>Matched : {consumer.matchRegex}</h3>
+              {consumer.matched.length ? <ul key={`search-${consumer.topic}`} className='messages ul-40'>
+                {
+                  consumer.matched.map(msg => <li className='message' key={`${msg.offset}-${msg.partition}`}>
+                    <div>
+                      <h3 className='colored'>partition-{msg.partition}: {msg.offset}</h3><br/>
+                      <div className='highlight'>&lt;timestamp&gt;: <span>{msg.timeStamp}</span></div>
+                      <div className='highlight'>&lt;message&gt;:<br/> {JSON.stringify(msg.value)}</div>
+                    </div>
+                  </li>)
+                }
+                <li className='colored'>-----------EOL-----------</li>
+              </ul> : <div>No match yet</div>
+            }
           </div>
         }
       </div>

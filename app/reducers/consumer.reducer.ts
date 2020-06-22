@@ -3,7 +3,7 @@ import {CONSUME_MESSAGE, START_CONSUME, STOP_CONSUME} from "../actions/consumer.
 
 const MAX_MESSAGE_COUNT = 100;
 
-let emptyConsumer = {consumer: null, topic: '', message: [], matched: []};
+let emptyConsumer = {consumer: null, topic: '', matchRegex: '', message: [], matched: []};
 export default function consumer(state: any = emptyConsumer, action: AnyAction) {
   const newState = { ...state };
   switch (action.type) {
@@ -11,6 +11,7 @@ export default function consumer(state: any = emptyConsumer, action: AnyAction) 
       newState.consumer = action.consumer;
       newState.topic = action.topic;
       newState.message = [];
+      newState.matchRegex = action.matchRegex;
       newState.matched = [];
       return newState;
     case CONSUME_MESSAGE:
@@ -34,6 +35,7 @@ export default function consumer(state: any = emptyConsumer, action: AnyAction) 
       if (action.flushMsg) {
         newState.message = [];
         newState.matched = [];
+        newState.matchRegex = '';
       }
       return newState;
     default:
