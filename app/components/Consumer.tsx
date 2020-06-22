@@ -58,7 +58,7 @@ export class Consumer extends Component<Props> {
   }
 
   componentDidUpdate(): void {
-    if (this.messagesEnd) {
+    if (this.messagesEnd && this.props.consumer.topic) {
       this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
     }
   }
