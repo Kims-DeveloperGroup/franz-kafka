@@ -30,13 +30,13 @@ export function stopConsume(flushMsg:boolean = true) {
   return (dispatch: Dispatch) => dispatch(consumerStop(flushMsg))
 }
 
-export function consumeTopic(topicToConsume, groupId) {
+export function consumeTopic(topicToConsume, groupId, fromBeginning = false) {
   return (dispatch: Dispatch, getState: GetState) => {
     let consumer = getState().kafka.client.consumer({ groupId: groupId });
     consumer.connect()
       .then(async () => {
         dispatch(consumerStart(consumer, topicToConsume));
-        await consumer.subscribe({ topic: topicToConsume, fromBeginning: true });
+        await consumer.subscribe({ topic: topicToConsume, fromBeginning: fromBeginning });
         await consumer.run({
           eachMessage: async ({ topic, partition, message }) => {
             dispatch(messageConsume({

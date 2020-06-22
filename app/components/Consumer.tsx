@@ -12,7 +12,7 @@ type Props = {
   topics: ITopicMetadata[],
   location: any,
   kafkaClient: Kafka,
-  consumeTopic: (topic: string, groupId: string) => void,
+  consumeTopic: (topic: string, groupId: string, fromBeginning: boolean) => void,
   stopConsume: (flushMsg:boolean) => void,
   getTopicDetails: (topic: string) => void,
   consumer: any,
@@ -48,10 +48,10 @@ export class Consumer extends Component<Props> {
     this.props.stopConsume();
   }
 
-  startConsume(): void {
+  startConsume(fromBeginning: boolean): void {
     const {consumeTopic, getTopicDetails} = this.props;
     let topic = this.selectedTopic.value;
-    consumeTopic(topic, "group-jafka");
+    consumeTopic(topic, "group-jafka", fromBeginning);
     getTopicDetails(topic);
   }
 
@@ -79,8 +79,15 @@ export class Consumer extends Component<Props> {
               topics.map(topic => <option key={topic.name} value={topic.name}>{topic.name}</option>)
             }
           </select>
-          <Button text={consumer.topic ? "Stop" : "Start"} theme='small'
-                  onClick={() => consumer.topic ? stopConsume(false) : this.startConsume()}/>
+          {
+            consumer.topic ?
+              <Button text="Stop" theme='small' onClick={() => stopConsume(false)}/> :
+              <span>
+                <Button text="Start" theme='small' onClick={() => this.startConsume(false)}/> or
+                <Button text="Start from beginning" theme='small' onClick={() => this.startConsume(true)}/>
+              </span>
+          }
+
         </div>
         <br/>
         <div>
