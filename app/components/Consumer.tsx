@@ -108,11 +108,9 @@ export class Consumer extends Component<Props> {
               </div>
             </li>)
           }
-          {consumer.topic &&
-            <li ref={el => this.messagesEnd = el}>
-              <ReactLoading type='spokes' color={'#2ffd14'} height={30} width={30} />
-            </li>
-          }
+          <li ref={el => this.messagesEnd = el}>
+            {consumer.topic && <ReactLoading type='spokes' color={'#2ffd14'} height={30} width={30} />}
+          </li>
         </ul>
         {
           consumer.matchRegex &&
