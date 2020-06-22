@@ -40,6 +40,10 @@ export class Consumer extends Component<Props> {
   componentDidMount(): void {
   }
 
+  componentDidUpdate(): void {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+  }
+
   componentWillUnmount(): void {
     this.props.stopConsume();
   }
@@ -92,6 +96,7 @@ export class Consumer extends Component<Props> {
               </div>
             </li>)
           }
+          <li className='colored' ref={el => this.messagesEnd = el}>-----------EOL-----------</li>
         </ul>
       </div>
     );
