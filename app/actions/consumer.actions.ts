@@ -28,7 +28,11 @@ export function consumerStop(flushMsg:boolean) {
 }
 
 export function stopConsume(flushMsg:boolean = true) {
-  return (dispatch: Dispatch) => dispatch(consumerStop(flushMsg))
+  return (dispatch: Dispatch, getState: GetState) => {
+    getState().consumer.consumer.describeGroup()
+      .then(group =>  getState().kafka.client.admin().deleteGroups([group.groupId]));
+    dispatch(consumerStop(flushMsg));
+  }
 }
 
 export function consumeTopic(topicToConsume, groupId, fromBeginning = false, regexLiteral = '') {
