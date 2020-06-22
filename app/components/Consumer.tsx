@@ -39,6 +39,21 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export class Consumer extends Component<Props> {
+
+  constructor(props: Readonly<Props>) {
+    super(props);
+    this.state = {
+      update: true
+    };
+
+    setInterval(() => this.setState(s => {
+      if (s.update === false) {
+        s.update = true;
+      }
+      return s;
+    }), 2000);
+  }
+
   componentDidMount(): void {
   }
 
@@ -50,6 +65,14 @@ export class Consumer extends Component<Props> {
 
   componentWillUnmount(): void {
     this.props.stopConsume();
+  }
+
+  shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<{}>, nextContext: any): boolean {
+    if (nextState.update) {
+      this.setState({update: false});
+      return true;
+    }
+    return false;
   }
 
   startConsume(fromBeginning: boolean): void {
