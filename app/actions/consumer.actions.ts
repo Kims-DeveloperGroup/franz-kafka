@@ -46,8 +46,7 @@ export function consumeTopic(topicToConsume, groupId, fromBeginning = false, reg
             if (regexLiteral) {
               matched = value.match(regex) !== null
             }
-
-            dispatch(messageConsume({
+            await dispatch(messageConsume({
               key: message.key.toString(),
               value: value,
               offset: message.offset,
@@ -55,7 +54,7 @@ export function consumeTopic(topicToConsume, groupId, fromBeginning = false, reg
               topic: topic,
               partition: partition,
               matched: matched
-            }))
+            }));
           },
         })
       });
