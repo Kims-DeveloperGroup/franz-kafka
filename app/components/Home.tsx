@@ -6,7 +6,7 @@ import styles from './Home.css';
 export default function Home() {
   return (
     <div className={styles.container} data-tid="container">
-      <h2>Jafka</h2>
+      <h2>Franz (Kafka)</h2>
       <Link to={routes.CONNECTIONS}><i>[ to connections ]</i></Link>
     </div>
   );
