@@ -8,6 +8,7 @@ import {getTopicDetails} from "../actions/topic.detail.actions";
 import {History} from 'history';
 import {Button} from "./Common/Button";
 import {TextInput} from "./Common/TextInput";
+import ReactLoading from 'react-loading';
 
 type Props = {
   topics: ITopicMetadata[],
@@ -42,7 +43,9 @@ export class Consumer extends Component<Props> {
   }
 
   componentDidUpdate(): void {
-    this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+    if (this.messagesEnd) {
+      this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   componentWillUnmount(): void {
@@ -105,7 +108,11 @@ export class Consumer extends Component<Props> {
               </div>
             </li>)
           }
-          <li className='colored' ref={el => this.messagesEnd = el}>-----------EOL-----------</li>
+          {consumer.topic &&
+            <li ref={el => this.messagesEnd = el}>
+              <ReactLoading type='spokes' color={'#2ffd14'} height={30} width={30} />
+            </li>
+          }
         </ul>
         {
           consumer.matchRegex &&
