@@ -16,5 +16,6 @@ export function getConsumerGroups() {
       .admin()
       .listGroups()
       .then(res => dispatch(consumerGroups(res.groups)))
+      .catch(() => dispatch(consumerGroups([])))
   };
 }
