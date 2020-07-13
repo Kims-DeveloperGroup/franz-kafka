@@ -29,9 +29,20 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export class ConsumerGroupDetail extends Component<Props> {
+  
+  constructor(props: Readonly<Props>) {
+    super(props);
+    this.intervalUpdate = null;
+  }
 
   componentDidMount(): void {
     this.fetchConsumerGroupDetail();
+    clearInterval(this.intervalUpdate);
+    this.intervalUpdate = setInterval(this.fetchConsumerGroupDetail.bind(this), 4000)
+  }
+
+  componentWillUnmount(): void {
+    clearInterval(this.intervalUpdate);
   }
 
   fetchConsumerGroupDetail(): void {
