@@ -16,6 +16,7 @@ export function getTopics() {
       .admin()
       .fetchTopicMetadata()
       .then(res => dispatch(topics(res.topics)))
+      .catch(() => dispatch(topics([])))
   };
 }
 

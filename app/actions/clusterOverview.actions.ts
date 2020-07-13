@@ -15,5 +15,6 @@ export function getClusterDescription() {
       .kafka.client.admin()
       .describeCluster()
       .then(res => dispatch(clusterDescription(res)))
+      .catch(() => dispatch(clusterDescription({})))
   };
 }
