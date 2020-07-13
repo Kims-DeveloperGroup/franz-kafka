@@ -31,8 +31,12 @@ function mapDispatchToProps(dispatch: Dispatch) {
 export class ConsumerGroupDetail extends Component<Props> {
 
   componentDidMount(): void {
+    this.fetchConsumerGroupDetail();
+  }
+
+  fetchConsumerGroupDetail(): void {
     const {getConsumerGroupDetail, location, topicDetail} = this.props;
-    getConsumerGroupDetail(location.search.split("=")[1], topicDetail.topic)
+    getConsumerGroupDetail(location.search.split("=")[1], topicDetail.topic);
   }
 
   render(): React.ReactElement {
@@ -44,7 +48,10 @@ export class ConsumerGroupDetail extends Component<Props> {
           <Button text='Back' onClick={() => history.goBack()} theme='medium'/>
         </div>
         <h1>Group: {groupId}</h1>
-        <div><h2>Members</h2></div>
+        <div>
+          <h2 style={{'display': 'inline'}}>Members</h2>
+          <Button text='refresh' onClick={() => this.fetchConsumerGroupDetail()} theme='medium'/>
+        </div>
         <div>Count: {consumerGroupDetail.members && consumerGroupDetail.members.length}</div>
         <ul className='ul-60'>
           {
