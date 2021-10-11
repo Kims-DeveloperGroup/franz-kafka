@@ -45,9 +45,6 @@ export function connectKafkaCluster(url: string) {
     return kafka
       .admin()
       .connect()
-      .then(() => dispatch(bootstrapKafka(kafka, url)))
-      .catch(reason => {
-        alert(reason);
-      });
+      .then(() => dispatch(bootstrapKafka(kafka, url)));
   };
 }

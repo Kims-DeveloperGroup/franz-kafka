@@ -60,11 +60,13 @@ export class ClusterOverview extends Component<Props> {
     this.addRecentConnections(url);
     connectKafkaCluster(url)
       .then(() => history.push(routes.CLUSTER_OVERVIEW))
-      .catch(() => alert('Connection fail'));
+      .catch(reason => {
+        alert(reason);
+      });
   }
 
   render(): React.ReactElement {
-    const {history} = this.props;
+    const { history } = this.props;
     return (
       <div>
         <div>
