@@ -17,33 +17,37 @@ export function connectKafkaCluster(url: string) {
       getState()
         .kafka.client.admin()
         .disconnect()
-    ]).catch(reason => alert(reason));
-
-    const serverUrlAndConfigs = url.split('?');
-    const brokerUrls = serverUrlAndConfigs[0].split(',');
-    const connectionConfigString = serverUrlAndConfigs[1];
-    const connectionConfigProps: { [index: string]: any } = {
-      sasl: {}
-    };
-    connectionConfigString.split(',').forEach(s => {
-      const [key, value] = s.split('=');
-      const [prefix, postfix] = key.split('.');
-      if (prefix === 'sasl') {
-        connectionConfigProps.sasl[postfix] = value;
-      } else {
-        connectionConfigProps[key] = value;
-      }
+    ]).catch(reason => {
+      alert(reason);
     });
+
+    const [brokerUrlString, connectionConfigString] = url.split('?');
+    const connectionConfigProps: { [index: string]: any } = {};
+    if (connectionConfigString) {
+      connectionConfigProps.sasl = {};
+      connectionConfigString.split(',').forEach(s => {
+        const [key, value] = s.split('=');
+        const [prefix, postfix] = key.split('.');
+        if (prefix === 'sasl') {
+          connectionConfigProps.sasl[postfix] = value;
+        } else {
+          connectionConfigProps[key] = value;
+        }
+      });
+    }
 
     const kafka = new Kafka({
       clientId: 'franz-kafka',
-      brokers: brokerUrls,
+      brokers: brokerUrlString.split(','),
       connectionTimeout: 3000,
       ...connectionConfigProps
     });
     return kafka
       .admin()
       .connect()
-      .then(() => dispatch(bootstrapKafka(kafka, url)));
+      .then(() => dispatch(bootstrapKafka(kafka, url)))
+      .catch(reason => {
+        alert(reason);
+      });
   };
 }
