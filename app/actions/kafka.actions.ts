@@ -14,13 +14,32 @@ export function bootstrapKafka(client: Kafka, url: string) {
 export function connectKafkaCluster(url: string) {
   return (dispatch: Dispatch, getState: GetState) => {
     Promise.all([
-      getState().kafka.client.admin().disconnect()
-    ]);
+      getState()
+        .kafka.client.admin()
+        .disconnect()
+    ]).catch(reason => alert(reason));
+
+    const serverUrlAndConfigs = url.split('?');
+    const brokerUrls = serverUrlAndConfigs[0].split(',');
+    const connectionConfigString = serverUrlAndConfigs[1];
+    const connectionConfigProps: { [index: string]: any } = {
+      sasl: {}
+    };
+    connectionConfigString.split(',').forEach(s => {
+      const [key, value] = s.split('=');
+      const [prefix, postfix] = key.split('.');
+      if (prefix === 'sasl') {
+        connectionConfigProps.sasl[postfix] = value;
+      } else {
+        connectionConfigProps[key] = value;
+      }
+    });
 
     const kafka = new Kafka({
-      clientId: 'jafka',
-      brokers: url.split(','),
-      connectionTimeout: 3000
+      clientId: 'franz-kafka',
+      brokers: brokerUrls,
+      connectionTimeout: 3000,
+      ...connectionConfigProps
     });
     return kafka
       .admin()
