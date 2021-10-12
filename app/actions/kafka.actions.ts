@@ -40,6 +40,9 @@ export function connectKafkaCluster(url: string) {
       clientId: 'franz-kafka',
       brokers: brokerUrlString.split(','),
       connectionTimeout: 3000,
+      retry: {
+        retries: 1
+      },
       ...connectionConfigProps
     });
     return kafka
