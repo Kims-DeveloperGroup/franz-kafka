@@ -37,11 +37,8 @@ export class ClusterOverview extends Component<Props> {
   }
 
   loadRecentConnection() {
-    let cons = localStorage.getItem('connections');
-    if (!cons) {
-      cons = '';
-    }
-    return cons.split('+').slice(0, cons.split('+').length);
+    const cons = localStorage.getItem('connections');
+    return cons ? cons.split('+').slice(0, cons.split('+').length) : [];
   }
 
   addRecentConnections(url: string) {
