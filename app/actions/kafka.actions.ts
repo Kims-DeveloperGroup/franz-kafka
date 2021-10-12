@@ -25,7 +25,7 @@ export function connectKafkaCluster(url: string) {
     const connectionConfigProps: { [index: string]: any } = {};
     if (connectionConfigString) {
       connectionConfigProps.sasl = {};
-      connectionConfigString.split(',').forEach(s => {
+      connectionConfigString.split('&').forEach(s => {
         const [key, value] = s.split('=');
         const [prefix, postfix] = key.split('.');
         if (prefix === 'sasl') {
