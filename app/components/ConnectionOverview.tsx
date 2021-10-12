@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import {bindActionCreators, Dispatch} from 'redux';
-import {connect} from 'react-redux';
-import {Kafka} from 'kafkajs';
-import {connectKafkaCluster} from '../actions/kafka.actions';
-import routes from '../constants/routes.json';
+import React, { Component } from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { Kafka, KafkaJSError } from 'kafkajs';
 import * as _ from 'lodash';
-import {Button} from "./Common/Button";
-import {History} from 'history';
-import {TextInput} from "./Common/TextInput";
+import { History } from 'history';
+import { connectKafkaCluster } from '../actions/kafka.actions';
+import routes from '../constants/routes.json';
+import { Button } from './Common/Button';
+import { TextInput } from './Common/TextInput';
 
 type Props = {
   history: History;
@@ -31,10 +31,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export class ClusterOverview extends Component<Props> {
-  constructor(props: Readonly<Props>) {
-    super(props);
-    this.url = '';
-  }
+  private url: any;
 
   loadRecentConnection() {
     let cons = localStorage.getItem('connections');
@@ -51,7 +48,7 @@ export class ClusterOverview extends Component<Props> {
     localStorage.setItem('connections', recentConnections.join('+'));
   }
 
-  private connectKafkaCluster(url: string) {
+  private connectKafka(url: string) {
     if (!url) {
       alert('Please enter url');
       return;
@@ -60,27 +57,45 @@ export class ClusterOverview extends Component<Props> {
     this.addRecentConnections(url);
     connectKafkaCluster(url)
       .then(() => history.push(routes.CLUSTER_OVERVIEW))
-      .catch(() => alert('Connection fail'));
+      .catch((reason: KafkaJSError) => {
+        alert(reason.message);
+      });
   }
 
   render(): React.ReactElement {
-    const {history} = this.props;
+    const { history } = this.props;
     return (
       <div>
         <div>
-          <Button text='Back Home' onClick={() => history.push(routes.HOME)} theme='medium'/>
+          <Button
+            text="Back Home"
+            onClick={() => history.push(routes.HOME)}
+            theme="medium"
+          />
         </div>
         <div>
           <h1>Connections</h1>
-          URL : <TextInput refer={e => (this.url = e)} placeholder='127.0.0.1:9092,127.0.0.1:9093'/>
-          <Button text='connect'
-                  theme='small'
-                  onClick={() => this.connectKafkaCluster(this.url.value)}/>
-          <ul className='ul-40'>
+          URL :
+          <TextInput
+            refer={e => {
+              this.url = e;
+            }}
+            placeholder="127.0.0.1:9092,127.0.0.1:9093"
+          />
+          <Button
+            text="connect"
+            theme="small"
+            onClick={() => this.connectKafka(this.url.value)}
+          />
+          <ul className="ul-40">
             {this.loadRecentConnection().map(url => (
               <li key={url}>
                 <span>{url}</span>
-                <Button text='reconnect' onClick={() => this.connectKafkaCluster(url)} theme='small'/>
+                <Button
+                  text="reconnect"
+                  onClick={() => this.connectKafka(url)}
+                  theme="small"
+                />
               </li>
             ))}
           </ul>

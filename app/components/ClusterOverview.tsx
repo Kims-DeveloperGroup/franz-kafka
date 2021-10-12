@@ -23,7 +23,7 @@ type Props = {
 
 function mapStateToProps(state: any) {
   return {
-    clusterOverview : state.clusterOverview,
+    clusterOverview: state.clusterOverview,
     topics: state.topics,
     consumerGroups: state.consumerGroups
   };
@@ -41,18 +41,21 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export class ClusterOverview extends Component<Props> {
-
   componentDidMount(): void {
-    const {getClusterDescription, getTopics, getConsumerGroups} = this.props;
+    const { getClusterDescription, getTopics, getConsumerGroups } = this.props;
     getClusterDescription();
     getTopics();
     getConsumerGroups();
   }
 
   render(): React.ReactElement {
-    const {clusterOverview, topics, consumerGroups, history} = this.props;
+    const { clusterOverview, topics, consumerGroups, history } = this.props;
 
-    if (!clusterOverview.description) {
+    if (
+      !clusterOverview ||
+      !clusterOverview.description ||
+      !clusterOverview.description.brokers
+    ) {
       return (
         <div>
           <Button text='Back to Connections' onClick={() => history.push(routes.CONNECTIONS)} theme='medium'/>

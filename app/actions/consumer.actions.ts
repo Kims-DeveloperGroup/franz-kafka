@@ -29,7 +29,7 @@ export function consumerStop(flushMsg:boolean) {
 
 export function stopConsume(flushMsg:boolean = true) {
   return (dispatch: Dispatch, getState: GetState) => {
-    getState().consumer.consumer.describeGroup()
+    getState().consumer.consumer && getState().consumer.consumer.describeGroup()
       .then(group =>  getState().kafka.client.admin().deleteGroups([group.groupId]));
     dispatch(consumerStop(flushMsg));
   }
