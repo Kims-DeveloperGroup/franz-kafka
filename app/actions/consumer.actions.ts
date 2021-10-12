@@ -1,4 +1,7 @@
-import {Dispatch, GetState} from '../reducers/types';
+import { CompressionTypes, CompressionCodecs } from 'kafkajs';
+import { Dispatch, GetState } from '../reducers/types';
+import { SnappyCodec } from 'kafkajs-snappy';
+CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec;
 
 export const CONSUME_MESSAGE = 'CONSUME_MESSAGE';
 export const START_CONSUME = 'START_CONSUME';
