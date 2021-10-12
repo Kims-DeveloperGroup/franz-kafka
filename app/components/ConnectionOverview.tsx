@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import {bindActionCreators, Dispatch} from 'redux';
-import {connect} from 'react-redux';
-import {Kafka, KafkaJSError} from 'kafkajs';
-import {connectKafkaCluster} from '../actions/kafka.actions';
-import routes from '../constants/routes.json';
+import React, { Component } from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { Kafka, KafkaJSError } from 'kafkajs';
 import * as _ from 'lodash';
-import {Button} from "./Common/Button";
-import {History} from 'history';
-import {TextInput} from "./Common/TextInput";
+import { History } from 'history';
+import { connectKafkaCluster } from '../actions/kafka.actions';
+import routes from '../constants/routes.json';
+import { Button } from './Common/Button';
+import { TextInput } from './Common/TextInput';
 
 type Props = {
   history: History;
@@ -31,11 +31,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export class ClusterOverview extends Component<Props> {
-  private url: string;
-  constructor(props: Readonly<Props>) {
-    super(props);
-    this.url = '';
-  }
+  private url: any;
 
   loadRecentConnection() {
     let cons = localStorage.getItem('connections');
@@ -52,7 +48,7 @@ export class ClusterOverview extends Component<Props> {
     localStorage.setItem('connections', recentConnections.join('+'));
   }
 
-  private connectKafkaCluster(url: string) {
+  private connectKafka(url: string) {
     if (!url) {
       alert('Please enter url');
       return;
@@ -89,7 +85,7 @@ export class ClusterOverview extends Component<Props> {
           <Button
             text="connect"
             theme="small"
-            onClick={() => this.connectKafkaCluster(this.url.value)}
+            onClick={() => this.connectKafka(this.url.value)}
           />
           <ul className="ul-40">
             {this.loadRecentConnection().map(url => (
@@ -97,7 +93,7 @@ export class ClusterOverview extends Component<Props> {
                 <span>{url}</span>
                 <Button
                   text="reconnect"
-                  onClick={() => this.connectKafkaCluster(url)}
+                  onClick={() => this.connectKafka(url)}
                   theme="small"
                 />
               </li>
