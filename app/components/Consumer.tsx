@@ -43,7 +43,8 @@ export class Consumer extends Component<Props> {
   constructor(props: Readonly<Props>) {
     super(props);
     this.state = {
-      update: true
+      update: true,
+      messageFormat: 'TEXT'
     };
 
     setInterval(() => this.setState(s => {
@@ -69,7 +70,10 @@ export class Consumer extends Component<Props> {
 
   shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<{}>, nextContext: any): boolean {
     if (nextState.update) {
-      this.setState({update: false});
+      this.setState(s =>{
+        s.update = false;
+        return s;
+      });
       return true;
     }
     return false;
@@ -84,6 +88,7 @@ export class Consumer extends Component<Props> {
 
   render(): React.ReactElement {
     const {location, stopConsume, history, consumer, topicDetail, topics} = this.props;
+    console.log(this.state);
     return (
       <div className='consumer'>
         <div>
@@ -124,8 +129,13 @@ export class Consumer extends Component<Props> {
           <select
             name="messageFormat"
             defaultValue="plain/text"
-            ref={e => {
-              this.messageFormat = e;
+            ref={e => this.messageFormat = e}
+            onChange={e => {
+              const format = e.target.value;
+              this.setState(s => {
+                s.messageFormat = format;
+                return s;
+              })
             }}
           >
             <option value="TEXT">TEXT</option>
@@ -134,9 +144,14 @@ export class Consumer extends Component<Props> {
           </select>
         </div>
         <div>
-          <textarea name="avroSchema" placeholder="Insert Avro Schema Here"
-            ref={e => { this.avroSchema = e }}
-          />
+          {
+            this.state.messageFormat == 'AVRO' &&
+            <textarea name="avroSchema" placeholder="Insert Avro Schema Here"
+                      ref={e => {
+                        this.avroSchema = e
+                      }}
+            />
+          }
         </div>
         <div>
           <h3 className='colored-2'>{consumer.message.length ? `partition-${consumer.message[consumer.message.length - 1].partition} : ${consumer.message[consumer.message.length - 1].offset} : ${consumer.message[consumer.message.length - 1].timeStamp} : ${consumer.message[consumer.message.length - 1].key}`: ''}</h3>
