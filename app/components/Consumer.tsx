@@ -82,7 +82,12 @@ export class Consumer extends Component<Props> {
   startConsume(fromBeginning: boolean): void {
     const {consumeTopic, getTopicDetails} = this.props;
     let topic = this.selectedTopic.value;
-    consumeTopic(topic, `kafka-franz-${new Date().getTime()}`, fromBeginning, this.matchText.value, this.messageFormat.value, this.avroSchema.value);
+    consumeTopic(topic,
+      `kafka-franz-${new Date().getTime()}`,
+      fromBeginning,
+      this.matchText.value,
+      this.messageFormat.value,
+      this.messageFormat.value == 'AVRO' && this.avroSchema.value);
     getTopicDetails(topic);
   }
 
@@ -154,7 +159,12 @@ export class Consumer extends Component<Props> {
           }
         </div>
         <div>
-          <h3 className='colored-2'>{consumer.message.length ? `partition-${consumer.message[consumer.message.length - 1].partition} : ${consumer.message[consumer.message.length - 1].offset} : ${consumer.message[consumer.message.length - 1].timeStamp} : ${consumer.message[consumer.message.length - 1].key}`: ''}</h3>
+          <h3 className='colored-2'>
+            {consumer.message.length ?
+              `partition-${consumer.message[consumer.message.length - 1].partition}
+              : ${consumer.message[consumer.message.length - 1].offset}
+              : ${consumer.message[consumer.message.length - 1].timeStamp}
+              : ${consumer.message[consumer.message.length - 1].key}`: ''}</h3>
         </div>
         <ul key={consumer.topic} className='messages ul-40'>
           {
