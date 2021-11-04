@@ -93,6 +93,7 @@ export class Consumer extends Component<Props> {
 
   render(): React.ReactElement {
     const {location, stopConsume, history, consumer, topicDetail, topics} = this.props;
+    console.log(this.state);
     return (
       <div className='consumer'>
         <div>
