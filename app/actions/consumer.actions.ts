@@ -50,7 +50,7 @@ export function consumeTopic(topicToConsume, groupId, fromBeginning = false, reg
         await consumer.subscribe({ topic: topicToConsume, fromBeginning: fromBeginning });
         await consumer.run({
           eachMessage: async ({ topic, partition, message }) => {
-            const value = message.value.toString();
+            const value = message.value && message.value.toString();
             let matched = false;
             if (regexLiteral) {
               matched = value.match(regex) !== null
