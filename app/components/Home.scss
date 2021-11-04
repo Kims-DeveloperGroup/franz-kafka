@@ -2,7 +2,24 @@
   position: absolute;
   top: 30%;
   left: 10px;
+  width: 100%;
   text-align: center;
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  overflow-y: hidden;
+}
+
+img {
+  width: 350px;
+  height: 350px;
+  margin-left: 50px;
+}
+
+.imgRef {
+  color: lightslategray;
+  font-size: 12px;
+  margin-left: 50px;
 }
 
 .container h2 {
