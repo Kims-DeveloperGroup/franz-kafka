@@ -52,6 +52,9 @@
     ]
   },
   "build": {
+    "mac": {
+      "icon": "./resources/icons/olive_black.png"
+    },
     "productName": "franz-kafka",
     "appId": "kims.devolopers.franz-kafka",
     "files": [
