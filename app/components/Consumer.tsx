@@ -14,7 +14,7 @@ type Props = {
   topics: ITopicMetadata[],
   location: any,
   kafkaClient: Kafka,
-  consumeTopic: (topic: string, groupId: string, fromBeginning: boolean, regex: string) => void,
+  consumeTopic: (topic: string, groupId: string, fromBeginning: boolean, regex: string, messageFormat: string, avroSchema: string) => void,
   stopConsume: (flushMsg:boolean) => void,
   getTopicDetails: (topic: string) => void,
   consumer: any,
@@ -43,7 +43,8 @@ export class Consumer extends Component<Props> {
   constructor(props: Readonly<Props>) {
     super(props);
     this.state = {
-      update: true
+      update: true,
+      messageFormat: 'TEXT'
     };
 
     setInterval(() => this.setState(s => {
@@ -69,7 +70,10 @@ export class Consumer extends Component<Props> {
 
   shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<{}>, nextContext: any): boolean {
     if (nextState.update) {
-      this.setState({update: false});
+      this.setState(s =>{
+        s.update = false;
+        return s;
+      });
       return true;
     }
     return false;
@@ -78,7 +82,12 @@ export class Consumer extends Component<Props> {
   startConsume(fromBeginning: boolean): void {
     const {consumeTopic, getTopicDetails} = this.props;
     let topic = this.selectedTopic.value;
-    consumeTopic(topic, `kafka-franz-${new Date().getTime()}`, fromBeginning, this.matchText.value);
+    consumeTopic(topic,
+      `kafka-franz-${new Date().getTime()}`,
+      fromBeginning,
+      this.matchText.value,
+      this.messageFormat.value,
+      this.messageFormat.value == 'AVRO' && this.avroSchema.value);
     getTopicDetails(topic);
   }
 
@@ -112,14 +121,49 @@ export class Consumer extends Component<Props> {
               <span>
                 <Button text="Start" theme='small' onClick={() => this.startConsume(false)}/> or
                 <Button text="Start from beginning" theme='small' onClick={() => this.startConsume(true)}/>
-              </span>
+              />
+            </span>
           }
         </div>
-        <br/>
+        <br />
         {!consumer.topic && <TextInput refer={e => (this.matchText = e)} placeholder='(Optional)Text to search'/>}
-        <br/><br/>
+        <br />
+        <br />
         <div>
-          <h3 className='colored-2'>{consumer.message.length ? `partition-${consumer.message[consumer.message.length - 1].partition} : ${consumer.message[consumer.message.length - 1].offset} : ${consumer.message[consumer.message.length - 1].timeStamp} : ${consumer.message[consumer.message.length - 1].key}`: ''}</h3>
+          <select
+            name="messageFormat"
+            defaultValue="plain/text"
+            ref={e => this.messageFormat = e}
+            onChange={e => {
+              const format = e.target.value;
+              this.setState(s => {
+                s.messageFormat = format;
+                return s;
+              })
+            }}
+          >
+            <option value="TEXT">TEXT</option>
+            <option value="JSON">JSON</option>
+            <option value="AVRO">AVRO</option>
+          </select>
+        </div>
+        <div>
+          {
+            this.state.messageFormat == 'AVRO' &&
+            <textarea name="avroSchema" placeholder="Insert Avro Schema Here"
+                      ref={e => {
+                        this.avroSchema = e
+                      }}
+            />
+          }
+        </div>
+        <div>
+          <h3 className='colored-2'>
+            {consumer.message.length ?
+              `partition-${consumer.message[consumer.message.length - 1].partition}
+              : ${consumer.message[consumer.message.length - 1].offset}
+              : ${consumer.message[consumer.message.length - 1].timeStamp}
+              : ${consumer.message[consumer.message.length - 1].key}`: ''}</h3>
         </div>
         <ul key={consumer.topic} className='messages ul-40'>
           {

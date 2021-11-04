@@ -1,9 +1,10 @@
 import {AnyAction} from 'redux';
 import {CONSUME_MESSAGE, START_CONSUME, STOP_CONSUME} from "../actions/consumer.actions";
-
+import avro from 'avro-js';
+import SnappyJS from 'snappyjs'
 const MAX_MESSAGE_COUNT = 100;
 
-let emptyConsumer = {consumer: null, topic: '', matchRegex: '', message: [], matched: []};
+let emptyConsumer = {consumer: null, topic: '', matchRegex: '', message: [], matched: [], messageFormat: '', avroSchema: '', avroParser: null};
 export default function consumer(state: any = emptyConsumer, action: AnyAction) {
   const newState = { ...state };
   switch (action.type) {
@@ -13,9 +14,14 @@ export default function consumer(state: any = emptyConsumer, action: AnyAction) 
       newState.message = [];
       newState.matchRegex = action.matchRegex;
       newState.matched = [];
+      newState.messageFormat = action.messageFormat;
       return newState;
     case CONSUME_MESSAGE:
-      action.message.value = JSON.parse(action.message.value);
+      if (newState.messageFormat.toLowerCase() === 'json') {
+        action.message.value = JSON.stringify(action.message.value);
+      } else if(newState.messageFormat.toLowerCase() === 'avro') {
+        // todo: Decode avro.sch here
+      }
       if (newState.message.length > MAX_MESSAGE_COUNT) {
         newState.message = newState.message.slice(newState.message.length - MAX_MESSAGE_COUNT, newState.message.length);
       }
