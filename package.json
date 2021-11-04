@@ -1,8 +1,8 @@
 {
-  "name": "franz-kafka",
-  "productName": "franz-kafka",
-  "version": "0.0.2",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "name": "olive-kafka",
+  "productName": "olive-kafka",
+  "version": "0.0.3-snapshot",
+  "description": "The tool is a gui client for kafka cluster.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
@@ -55,8 +55,8 @@
     "mac": {
       "icon": "./resources/icons/olive_black.png"
     },
-    "productName": "franz-kafka",
-    "appId": "kims.devolopers.franz-kafka",
+    "productName": "olive-kafka",
+    "appId": "kims.devolopers.olive-kafka",
     "files": [
       "dist/",
       "node_modules/",
