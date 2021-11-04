@@ -14,13 +14,15 @@ export function messageConsume(message: any) {
   }
 }
 
-export function consumerStart(consumer: any, topic: string, matchRegex: string) {
+export function consumerStart(consumer: any, topic: string, matchRegex: string, messageFormat: string, avroSchema: string) {
   return {
     type: START_CONSUME,
     consumer,
     topic,
-    matchRegex
-  }
+    matchRegex,
+    messageFormat,
+    avroSchema
+  };
 }
 
 export function consumerStop(flushMsg:boolean) {
@@ -38,13 +40,13 @@ export function stopConsume(flushMsg:boolean = true) {
   }
 }
 
-export function consumeTopic(topicToConsume, groupId, fromBeginning = false, regexLiteral = '') {
+export function consumeTopic(topicToConsume, groupId, fromBeginning = false, regexLiteral = '', messageFormat: string, avroSchema: string = "") {
   return (dispatch: Dispatch, getState: GetState) => {
     let consumer = getState().kafka.client.consumer({ groupId: groupId });
     const regex = new RegExp(regexLiteral);
     consumer.connect()
       .then(async () => {
-        dispatch(consumerStart(consumer, topicToConsume, regexLiteral));
+        dispatch(consumerStart(consumer, topicToConsume, regexLiteral, messageFormat, avroSchema));
         await consumer.subscribe({ topic: topicToConsume, fromBeginning: fromBeginning });
         await consumer.run({
           eachMessage: async ({ topic, partition, message }) => {

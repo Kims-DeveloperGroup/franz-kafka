@@ -93,6 +93,15 @@ select {
   text-align: center;
 }
 
+textarea {
+  background-color: transparent;
+  color: rgb(47, 253, 20);
+  font-size: 14px;
+  width: 200px;
+  height: 100px;
+}
+
+
 footer {
   cursor: pointer;
   position: absolute;
